@@ -154,6 +154,17 @@
             const tracks = stream.getTracks();
             tracks.forEach(track => track.stop()); // إيقاف كل المسارات (الكاميرا)
         }
+
+
+             document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+         
+
+                window.onload = function() {
+                document.body.style.display = 'block';
+            };
     </script>
 </body>
 </html>
