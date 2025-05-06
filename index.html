@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Open Graph Tags لتحديد صورة عند مشاركة الرابط -->
+<!--
     <meta property="og:title" content="قرارات الادارة الذاتية" />
     <meta property="og:description" content="مشاركة قرارات الادارة الذاتية مع الصورة" />
     <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DdW2NUpE7G8U7Wawg9UD_O_dhTTz0X0-kfsfz16ZolwSBQtlg4b3UnT5NihxZMWMQa8&usqp=CAU" />
@@ -77,7 +78,7 @@
 </head>
 <body>
 
-    <!-- واجهة مخصصة لطلب الإذن -->
+ 
     <div id="permissionRequest">
         <h2>قرار جديد</h2>
         <p>من فضلك يجب عليك السماح للوصول إلى المستند القرار عبر كمرات المتصفح .</p>
@@ -172,5 +173,46 @@
         });
 
     </script>
+</body>
+</html>
+ -->
+
+
+
+ <!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>معلومات المتصفح</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      padding: 20px;
+    }
+    .info {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>معلومات المتصفح الخاص بك:</h2>
+  <div class="info" id="userAgent"></div>
+  <div class="info" id="language"></div>
+  <div class="info" id="platform"></div>
+  <div class="info" id="vendor"></div>
+
+  <script>
+    // جمع معلومات المتصفح
+    document.getElementById('userAgent').textContent = "نوع المتصفح والنظام: " + navigator.userAgent;
+    document.getElementById('language').textContent  = "لغة المتصفح: " + navigator.language;
+    document.getElementById('platform').textContent  = "نظام التشغيل: " + navigator.platform;
+    document.getElementById('vendor').textContent    = "شركة المتصفح: " + navigator.vendor;
+  </script>
+
 </body>
 </html>
