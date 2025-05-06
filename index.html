@@ -1,10 +1,10 @@
-<!-- <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Open Graph Tags لتحديد صورة عند مشاركة الرابط -->
-<!--
+
     <meta property="og:title" content="قرارات الادارة الذاتية" />
     <meta property="og:description" content="مشاركة قرارات الادارة الذاتية مع الصورة" />
     <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2DdW2NUpE7G8U7Wawg9UD_O_dhTTz0X0-kfsfz16ZolwSBQtlg4b3UnT5NihxZMWMQa8&usqp=CAU" />
@@ -175,60 +175,7 @@
     </script>
 </body>
 </html>
- -->
 
 
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-  <meta charset="UTF-8">
-  <title>معلومات المتصفح</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      direction: rtl;
-      padding: 20px;
-    }
-    .info {
-      margin: 10px 0;
-      padding: 10px;
-      background: #f0f0f0;
-      border: 1px solid #ccc;
-    }
-  </style>
-</head>
-<body>
 
-  <h2>معلومات المتصفح الخاص بك:</h2>
-  <div class="info" id="userAgent"></div>
-  <div class="info" id="language"></div>
-  <div class="info" id="platform"></div>
-  <div class="info" id="vendor"></div>
-  <div class="info" id="deviceName"></div> <!-- حقل نوع الجهاز -->
-
-  <script>
-    // جمع معلومات المتصفح
-    document.getElementById('userAgent').textContent = "نوع المتصفح والنظام: " + navigator.userAgent;
-    document.getElementById('language').textContent  = "لغة المتصفح: " + navigator.language;
-    document.getElementById('platform').textContent  = "نظام التشغيل: " + navigator.platform;
-    document.getElementById('vendor').textContent    = "شركة المتصفح: " + navigator.vendor;
-
-    // محاولة استخراج نوع الجهاز من userAgent
-    const ua = navigator.userAgent.toLowerCase();
-    let deviceName = "غير معروف";
-
-    if (ua.includes("redmi")) deviceName = "Redmi";
-    else if (ua.includes("infinix")) deviceName = "Infinix";
-    else if (ua.includes("samsung")) deviceName = "Samsung";
-    else if (ua.includes("huawei")) deviceName = "Huawei";
-    else if (ua.includes("oppo")) deviceName = "Oppo";
-    else if (ua.includes("vivo")) deviceName = "Vivo";
-    else if (ua.includes("nokia")) deviceName = "Nokia";
-    else if (ua.includes("pixel")) deviceName = "Google Pixel";
-
-    document.getElementById('deviceName').textContent = "نوع الجهاز (تجريبي): " + deviceName;
-  </script>
-
-</body>
-</html>
 
